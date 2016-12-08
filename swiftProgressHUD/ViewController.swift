@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  swiftProgressHUD
+//  SwiftProgressHUD
 //
 //  Created by point on 2016/12/8.
 //  Copyright © 2016年 dacai. All rights reserved.
@@ -10,6 +10,9 @@ import UIKit
 
 class ViewController: UIViewController {
     private var gradientLayer:CAGradientLayer = CAGradientLayer()
+     var cycyleTimer : Timer?
+    var aaa : CGFloat = 0.0
+    var HUD : SwiftProgressHUD!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -153,7 +156,7 @@ class ViewController: UIViewController {
     
     //444444444444444
     @IBAction func d(_ sender: Any) {
-        let hud = swiftProgressHUD.showHUDAddedTo(self.view, animated: true)
+        let hud = SwiftProgressHUD.showHUDAddedTo(self.view, animated: false)
         hud.mode = .animationImage
         hud.animationImage = [UIImage(named : "img_loading_1")!, UIImage(named : "img_loading_2")!]
         hud.hudColor = UIColor.black.withAlphaComponent(0.8)
@@ -166,23 +169,21 @@ class ViewController: UIViewController {
     @IBAction func btnClick1(_ sender: UIButton) {
         
         
-        let hud = swiftProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.mode = .circular
+        let hud = SwiftProgressHUD.showHUDAddedTo(self.view, animated: true)
        
-
-        hud.afterDelay = 4
+        hud.mode = .circular
+        hud.hudColor = UIColor.white
+        HUD = hud
+      
+            cycyleTimer = Timer(timeInterval: 0.2, target: self, selector: #selector(self.scrollToNext), userInfo: nil, repeats: true)
+            RunLoop.main.add(cycyleTimer!, forMode:RunLoopMode.commonModes)
         
-//        let hud = swiftProgressHUD.showHUDAddedTo(self.view, animated: true)
-//        hud.currentHudSize = CGSize(width: 100, height: 100)
-//        hud.titleText = "赵大财 赵大财 赵大财赵大财 赵大财 赵大财赵大财 赵大财 赵大财 赵大财赵大财 赵大赵大财 赵大财赵大财 赵大赵大财 赵大财赵大财 赵大赵大财赵大财 赵大财 赵大财赵大财 赵大财 赵大财赵大财 赵大财 赵大财"
-//        hud.mode = .text
-//        hud.afterDelay = 2
         
-    }
+}
     
     @IBAction func sss(_ sender: UIButton) {
         
-        let hud = swiftProgressHUD.showHUDAddedTo(self.view, animated: true)
+        let hud = SwiftProgressHUD.showHUDAddedTo(self.view, animated: true)
         hud.titleText = "赵大财 赵大财 赵大财赵大财赵大财 赵"
         hud.mode = .text
         hud.afterDelay = 2
@@ -196,12 +197,12 @@ class ViewController: UIViewController {
         //        self.view.addSubview(blueView)
         
         
-        //        let hud = swiftProgressHUD.showHUDAddedTo(blueView, animated: true)
+        //        let hud = SwiftProgressHUD.showHUDAddedTo(blueView, animated: true)
         //        hud.titleText = "赵大财 赵大财 赵大财赵大赵大财 赵大财赵大财 赵大赵大财 赵大财赵大财 赵大赵大财 赵大财赵大财 赵大赵大财 赵大财赵大财 赵大财 赵大财 赵大财赵大财\n 💯"
         //        hud.mode = .text
         //        hud.afterDelay = 2
         
-        //        let hud = swiftProgressHUD.showHUDAddedTo(blueView, animated: true)
+        //        let hud = SwiftProgressHUD.showHUDAddedTo(blueView, animated: true)
         //        hud.mode = .customView
         //        let view = UIView()
         //        view.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
@@ -212,6 +213,25 @@ class ViewController: UIViewController {
     }
     
     
+    
+}
+
+extension ViewController  {
+    
+    // 定时器的方法
+    @objc fileprivate func scrollToNext() {
+       print(HUD)
+       aaa =  aaa + 0.1
+      HUD.progress = aaa
+        if(aaa >= 1){
+            aaa = 0.0
+            cycyleTimer?.invalidate()
+            cycyleTimer = nil
+            HUD = nil
+        }
+    }
+    
+
     
 }
 

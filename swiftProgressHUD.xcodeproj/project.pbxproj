@@ -12,7 +12,7 @@
 		59C4F4721DF9033C004A23E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59C4F4701DF9033C004A23E1 /* Main.storyboard */; };
 		59C4F4741DF9033C004A23E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59C4F4731DF9033C004A23E1 /* Assets.xcassets */; };
 		59C4F4771DF9033C004A23E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59C4F4751DF9033C004A23E1 /* LaunchScreen.storyboard */; };
-		59C4F47F1DF903DB004A23E1 /* swiftProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C4F47E1DF903DB004A23E1 /* swiftProgressHUD.swift */; };
+		59C4F47F1DF903DB004A23E1 /* SwiftProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C4F47E1DF903DB004A23E1 /* SwiftProgressHUD.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,7 +23,7 @@
 		59C4F4731DF9033C004A23E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		59C4F4761DF9033C004A23E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		59C4F4781DF9033C004A23E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		59C4F47E1DF903DB004A23E1 /* swiftProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = swiftProgressHUD.swift; sourceTree = "<group>"; };
+		59C4F47E1DF903DB004A23E1 /* SwiftProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftProgressHUD.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +56,7 @@
 		59C4F46B1DF9033C004A23E1 /* swiftProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
-				59C4F47E1DF903DB004A23E1 /* swiftProgressHUD.swift */,
+				59C4F47E1DF903DB004A23E1 /* SwiftProgressHUD.swift */,
 				59C4F46C1DF9033C004A23E1 /* AppDelegate.swift */,
 				59C4F46E1DF9033C004A23E1 /* ViewController.swift */,
 				59C4F4701DF9033C004A23E1 /* Main.storyboard */,
@@ -141,7 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				59C4F46F1DF9033C004A23E1 /* ViewController.swift in Sources */,
-				59C4F47F1DF903DB004A23E1 /* swiftProgressHUD.swift in Sources */,
+				59C4F47F1DF903DB004A23E1 /* SwiftProgressHUD.swift in Sources */,
 				59C4F46D1DF9033C004A23E1 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -304,6 +304,7 @@
 				59C4F47D1DF9033C004A23E1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

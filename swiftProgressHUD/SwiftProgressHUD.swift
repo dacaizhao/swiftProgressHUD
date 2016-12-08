@@ -1,6 +1,6 @@
 //
-//  swiftProgressHUD.swift
-//  swiftProgressHUD
+//  SwiftProgressHUD.swift
+//  SwiftProgressHUD
 //
 //  Created by point on 2016/12/8.
 //  Copyright © 2016年 dacai. All rights reserved.
@@ -8,18 +8,23 @@
 
 import UIKit
 
-enum swiftProgressHUDModel {
+enum SwiftProgressHUDModel {
     case text
     case customView
     case animationImage
     case circular
 }
 
-class swiftProgressHUD: UIView {
+
+
+class SwiftProgressHUD: UIView {
+    
+    
     open var currentView:UIView!
     open var hudMaskView:UIView!
     open var hudView:UIView!
     open var blurView:UIVisualEffectView!
+    open var circularView:ProgressView!
     
     //默认尺寸
     fileprivate var defaultHudSize:CGSize = CGSize(width: 150, height: 100)
@@ -51,8 +56,21 @@ class swiftProgressHUD: UIView {
         }
     }
     
+    
+    // MARK:- 进度
+    open var progress:CGFloat = 0.0 {
+        didSet{
+            
+            if(progress < 1){
+                self.circularView.progress = progress
+            }else{
+                hideView(afterDelay: 0)
+            }
+        }
+    }
+    
     // MARK:- 类型
-    open var mode:swiftProgressHUDModel = .text {
+    open var mode:SwiftProgressHUDModel = .text {
         didSet{
             if mode == .circular {
                 self.setupcircularView()
@@ -108,7 +126,7 @@ class swiftProgressHUD: UIView {
 }
 
 // MARK:- 设置UI
-extension swiftProgressHUD {
+extension SwiftProgressHUD {
     // MARK:- 设置蒙版
     func setupMaskView() {
         hudMaskView = UIView()
@@ -193,17 +211,17 @@ extension swiftProgressHUD {
     
     // MARK:- 设置圆形进度条
     func setupcircularView() {
-        let circularView = UIView()
+        circularView = ProgressView()
+        circularView.progress = 0.0
         circularView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         circularView.backgroundColor = UIColor.white
         self.setupHudCustomView(view: circularView)
-        
     }
     
 }
 
 // MARK:- 外部动作
-extension swiftProgressHUD {
+extension SwiftProgressHUD {
     func hideView(afterDelay: CGFloat) {
         let after =  TimeInterval(afterDelay)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(after * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {
@@ -213,7 +231,7 @@ extension swiftProgressHUD {
 }
 
 // MARK:- 其他方法
-extension swiftProgressHUD {
+extension SwiftProgressHUD {
     
     
     //计算文本尺寸
@@ -223,4 +241,35 @@ extension swiftProgressHUD {
         let rect:CGRect = text.boundingRect(with: size, options: option, attributes: attributes, context: nil)
         return rect;
     }
+}
+
+
+class ProgressView: UIView {
+    // MARK:- 定义属性
+    var progress : CGFloat = 0 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
+    // MARK:- 重写drawRect方法
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        // 获取参数
+        let center = CGPoint(x: rect.width * 0.5, y: rect.height * 0.5)
+        let radius = rect.width * 0.5 - 3
+        let startAngle = CGFloat(-M_PI_2)
+        let endAngle = CGFloat(2 * M_PI) * progress + startAngle
+        
+        // 创建贝塞尔曲线
+        let path = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
+        // 绘制一条中心点的线
+        path.addLine(to: center)
+        path.close()
+        // 设置绘制的颜色
+        UIColor(white: 0.5, alpha: 0.8).setFill()
+        // 开始绘制
+        path.fill()
+    }
+    
 }
