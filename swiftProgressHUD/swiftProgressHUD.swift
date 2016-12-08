@@ -23,6 +23,9 @@ class swiftProgressHUD: UIView {
     //默认尺寸
     fileprivate var defaultHudSize:CGSize = CGSize(width: 150, height: 100)
     
+    //hud的渐变动画
+    fileprivate var hudAnimated:Bool = false
+    
     // MARK:- 尺寸
     open var currentHudSize:CGSize = CGSize.zero {
         didSet{
@@ -92,6 +95,7 @@ class swiftProgressHUD: UIView {
     // MARK:- 初始化方法
     class func showHUDAddedTo(_ view: UIView, animated: Bool)->Self {
         let hud = self.init()
+        hud.hudAnimated = animated
         hud.currentView = view
         hud.setupMaskView()
         hud.setupHudView()
@@ -127,6 +131,13 @@ extension swiftProgressHUD {
         blurView = UIVisualEffectView(effect: blurEffect)
         blurView.frame = CGRect(x: 0, y: 0, width: defaultHudSize.width, height: defaultHudSize.height)
         hudView.addSubview(blurView)
+        
+        if hudAnimated {
+            hudView.alpha = 0.1
+            UIView.animate(withDuration: 0.5, animations: {
+                self.hudView.alpha = 1
+            })
+        }
     }
     
     // MARK:- 设置HudTitle
@@ -184,7 +195,6 @@ extension swiftProgressHUD {
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(after * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {
             self.hudMaskView.removeFromSuperview()
         })
-        
     }
 }
 
