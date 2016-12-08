@@ -165,11 +165,18 @@ class ViewController: UIViewController {
     
     @IBAction func btnClick1(_ sender: UIButton) {
         
+        
         let hud = swiftProgressHUD.showHUDAddedTo(self.view, animated: true)
-        hud.currentHudSize = CGSize(width: 100, height: 100)
-        hud.titleText = "赵大财 赵大财 赵大财赵大财 赵大财 赵大财赵大财 赵大财 赵大财 赵大财赵大财 赵大赵大财 赵大财赵大财 赵大赵大财 赵大财赵大财 赵大赵大财赵大财 赵大财 赵大财赵大财 赵大财 赵大财赵大财 赵大财 赵大财"
-        hud.mode = .text
-        hud.afterDelay = 2
+        hud.mode = .circular
+       
+
+        hud.afterDelay = 4
+        
+//        let hud = swiftProgressHUD.showHUDAddedTo(self.view, animated: true)
+//        hud.currentHudSize = CGSize(width: 100, height: 100)
+//        hud.titleText = "赵大财 赵大财 赵大财赵大财 赵大财 赵大财赵大财 赵大财 赵大财 赵大财赵大财 赵大赵大财 赵大财赵大财 赵大赵大财 赵大财赵大财 赵大赵大财赵大财 赵大财 赵大财赵大财 赵大财 赵大财赵大财 赵大财 赵大财"
+//        hud.mode = .text
+//        hud.afterDelay = 2
         
     }
     

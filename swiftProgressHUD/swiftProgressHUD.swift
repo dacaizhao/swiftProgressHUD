@@ -12,6 +12,7 @@ enum swiftProgressHUDModel {
     case text
     case customView
     case animationImage
+    case circular
 }
 
 class swiftProgressHUD: UIView {
@@ -53,7 +54,9 @@ class swiftProgressHUD: UIView {
     // MARK:- 类型
     open var mode:swiftProgressHUDModel = .text {
         didSet{
-            
+            if mode == .circular {
+                self.setupcircularView()
+            }
         }
     }
     
@@ -136,6 +139,7 @@ extension swiftProgressHUD {
             hudView.alpha = 0.1
             UIView.animate(withDuration: 0.5, animations: {
                 self.hudView.alpha = 1
+                
             })
         }
     }
@@ -174,6 +178,7 @@ extension swiftProgressHUD {
         hudView.addSubview(view)
         view.center = CGPoint(x:hudView.frame.size.width/2 , y: hudView.frame.size.height/2)
     }
+    
     // MARK:- 设置动画View
     func setupAnimationImage(imgArr: [UIImage]) {
         let imageView = UIImageView(image: imgArr[0])
@@ -184,8 +189,17 @@ extension swiftProgressHUD {
         imageView.animationRepeatCount = LONG_MAX
         imageView.startAnimating()
         self.setupHudCustomView(view: imageView)
+    }
+    
+    // MARK:- 设置圆形进度条
+    func setupcircularView() {
+        let circularView = UIView()
+        circularView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        circularView.backgroundColor = UIColor.white
+        self.setupHudCustomView(view: circularView)
         
     }
+    
 }
 
 // MARK:- 外部动作
