@@ -10,13 +10,21 @@ import UIKit
 
 class ViewController: UIViewController {
     private var gradientLayer:CAGradientLayer = CAGradientLayer()
+    
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+    
      var cycyleTimer : Timer?
     var aaa : CGFloat = 0.0
     var HUD : SwiftProgressHUD!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+        view.backgroundColor = UIColor.black
+        activityIndicator.activityIndicatorViewStyle = .whiteLarge
+        view.addSubview(activityIndicator)
+         activityIndicator.center = self.view.center
+         activityIndicator.startAnimating()
+        activityIndicator.frame.size = CGSize(width: 100, height: 100)
+
         
         //        self.gradientLayer.frame = self.view.bounds
         //
@@ -191,6 +199,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func aaaaaa(_ sender: UIButton) {
+        
         //        let blueView = UIView();
         //        blueView.backgroundColor = UIColor.blue
         //        blueView.frame = CGRect(x: 0, y: 200, width: 200, height: 200)

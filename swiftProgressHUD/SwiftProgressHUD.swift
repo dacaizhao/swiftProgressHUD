@@ -199,6 +199,7 @@ extension SwiftProgressHUD {
     
     // MARK:- 设置动画View
     func setupAnimationImage(imgArr: [UIImage]) {
+        blurView.isHidden = true
         let imageView = UIImageView(image: imgArr[0])
         imageView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         currentHudSize =  CGSize(width: 100, height: 100)
@@ -244,6 +245,31 @@ extension SwiftProgressHUD {
 }
 
 
+class ProgressRectView: UIView {
+    // MARK:- 定义属性
+    var progress : CGFloat = 0 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    // MARK:- 重写drawRect方法
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
+        
+        // 创建贝塞尔曲线
+        let path = UIBezierPath(roundedRect: CGRect(x: 0, y: rect.height/2, width: rect.width * progress, height: 5), cornerRadius: 2.5)
+        // 绘制一条中心点的线
+        //path.addLine(to: center)
+        //path.close()
+        // 设置绘制的颜色
+        UIColor(white: 0.5, alpha: 0.8).setFill()
+        // 开始绘制
+        path.fill()
+    }
+    
+}
+
+
 class ProgressView: UIView {
     // MARK:- 定义属性
     var progress : CGFloat = 0 {
@@ -251,7 +277,6 @@ class ProgressView: UIView {
             setNeedsDisplay()
         }
     }
-    
     // MARK:- 重写drawRect方法
     override func draw(_ rect: CGRect) {
         super.draw(rect)
@@ -273,3 +298,4 @@ class ProgressView: UIView {
     }
     
 }
+
