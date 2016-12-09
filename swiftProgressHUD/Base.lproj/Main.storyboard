@@ -34,6 +34,23 @@
                                 <constraint firstItem="N3l-GF-9HT" firstAttribute="centerY" secondItem="EEB-J1-zjv" secondAttribute="centerY" id="oGy-ja-6fr"/>
                             </constraints>
                         </view>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="PXv-ck-5TY">
+                            <rect key="frame" x="0.0" y="122" width="375" height="54"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="大财出品 ✨ ✨ 必属精品" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5xi-RT-piu">
+                                    <rect key="frame" x="89" y="17" width="198" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstItem="5xi-RT-piu" firstAttribute="centerX" secondItem="PXv-ck-5TY" secondAttribute="centerX" id="dcC-HA-9A2"/>
+                                <constraint firstItem="5xi-RT-piu" firstAttribute="centerY" secondItem="PXv-ck-5TY" secondAttribute="centerY" id="fwg-qK-o1n"/>
+                            </constraints>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="reuseIdentifier" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseIdentifier" id="9n4-2F-ugq">
                                 <rect key="frame" x="0.0" y="78" width="375" height="44"/>
@@ -52,7 +69,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9S1-na-P7l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="36" y="-245"/>
+            <point key="canvasLocation" x="48.799999999999997" y="-288.30584707646182"/>
         </scene>
     </scenes>
 </document>
