@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     var HUD : SwiftProgressHUD!
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.black
+        //view.backgroundColor = UIColor.black
         activityIndicator.activityIndicatorViewStyle = .whiteLarge
         view.addSubview(activityIndicator)
          activityIndicator.center = self.view.center

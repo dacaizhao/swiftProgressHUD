@@ -9,10 +9,12 @@
 import UIKit
 
 enum SwiftProgressHUDModel {
-    case text
-    case customView
-    case animationImage
-    case circular
+    case text //纯文本
+    case customView //自定义
+    case animationImage //动画组
+    case circular //圆形
+    case rectangle //矩形
+    case chrysanthemum //菊花
 }
 
 
@@ -52,7 +54,12 @@ class SwiftProgressHUD: UIView {
     // MARK:- 设置文字
     open var titleText:String = "" {
         didSet{
-            setupHudTitle(title: titleText)
+            if(self.mode == .text) {
+                setupHudTitle(title: titleText)
+            }else if ( self.mode == .chrysanthemum) {
+                //设置菊花文字
+            }
+            
         }
     }
     
@@ -61,11 +68,25 @@ class SwiftProgressHUD: UIView {
     open var progress:CGFloat = 0.0 {
         didSet{
             
-            if(progress < 1){
-                self.circularView.progress = progress
-            }else{
-                hideView(afterDelay: 0)
+            if(self.mode == .circular) {
+                if(progress < 1){
+                    self.circularView.progress = progress
+                }else{
+                    hideView(afterDelay: 0)
+                }
+                
+                
+            }else if (self.mode == .rectangle) {
+                if(progress < 1){
+                    self.circularView.progress = progress
+                }else{
+                    hideView(afterDelay: 0)
+                }
+                
+                
             }
+            
+            
         }
     }
     
@@ -74,6 +95,8 @@ class SwiftProgressHUD: UIView {
         didSet{
             if mode == .circular {
                 self.setupcircularView()
+            } else if mode == .rectangle {
+                //设置矩形
             }
         }
     }
