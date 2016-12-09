@@ -21,12 +21,15 @@ enum SwiftProgressHUDModel {
 
 class SwiftProgressHUD: UIView {
     
-    
+    var cycyleTimer : Timer?
     open var currentView:UIView!
     open var hudMaskView:UIView!
     open var hudView:UIView!
     open var blurView:UIVisualEffectView!
     open var circularView:ProgressView!
+    open var animationImageView:UIImageView!
+    open var animationImageViewArr:[UIImage]!
+    open var animationImageViewindex:Int = 0
     
     //默认尺寸
     fileprivate var defaultHudSize:CGSize = CGSize(width: 150, height: 100)
@@ -223,14 +226,17 @@ extension SwiftProgressHUD {
     // MARK:- 设置动画View
     func setupAnimationImage(imgArr: [UIImage]) {
         blurView.isHidden = true
-        let imageView = UIImageView(image: imgArr[0])
-        imageView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        animationImageViewArr = imgArr
+        animationImageView = UIImageView(image: imgArr[0])
+        animationImageView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         currentHudSize =  CGSize(width: 100, height: 100)
-        imageView.animationImages = imgArr
-        imageView.animationDuration = 0.5
-        imageView.animationRepeatCount = LONG_MAX
-        imageView.startAnimating()
-        self.setupHudCustomView(view: imageView)
+        self.addCycleTimer()
+        //        imageView.highlightedAnimationImages = imgArr
+        //        imageView.animationImages = imgArr
+        //        imageView.animationDuration = 0.5
+        //        imageView.animationRepeatCount = LONG_MAX
+        //        imageView.startAnimating()
+        self.setupHudCustomView(view: animationImageView)
     }
     
     // MARK:- 设置圆形进度条
@@ -249,6 +255,7 @@ extension SwiftProgressHUD {
     func hideView(afterDelay: CGFloat) {
         let after =  TimeInterval(afterDelay)
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(after * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {
+            self.removeCycleTimer()
             self.hudMaskView.removeFromSuperview()
         })
     }
@@ -264,6 +271,32 @@ extension SwiftProgressHUD {
         let option = NSStringDrawingOptions.usesLineFragmentOrigin
         let rect:CGRect = text.boundingRect(with: size, options: option, attributes: attributes, context: nil)
         return rect;
+    }
+    
+    // 添加定时器
+    fileprivate func addCycleTimer() {
+        cycyleTimer = Timer(timeInterval: 0.3, target: self, selector: #selector(self.scrollToNext), userInfo: nil, repeats: true)
+        RunLoop.main.add(cycyleTimer!, forMode:RunLoopMode.commonModes)
+        
+    }
+    
+    // 移除定时器
+    fileprivate func removeCycleTimer() {
+        // 从运行循环中移除
+        cycyleTimer?.invalidate()
+        cycyleTimer = nil
+    }
+    
+    // 定时器的方法
+    @objc fileprivate func scrollToNext() {
+        let count = animationImageViewArr.count
+        
+        if animationImageViewindex == count - 1 {
+            animationImageViewindex = 0
+        }else{
+            animationImageViewindex =  animationImageViewindex + 1
+        }
+        animationImageView.image = animationImageViewArr[animationImageViewindex]
     }
 }
 
