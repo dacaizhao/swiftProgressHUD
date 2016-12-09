@@ -27,9 +27,12 @@ class SwiftProgressHUD: UIView {
     open var hudView:UIView!
     open var blurView:UIVisualEffectView!
     open var circularView:ProgressView!
+    open var rectView:ProgressRectView!
     open var animationImageView:UIImageView!
     open var animationImageViewArr:[UIImage]!
     open var animationImageViewindex:Int = 0
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+    
     
     //默认尺寸
     fileprivate var defaultHudSize:CGSize = CGSize(width: 150, height: 100)
@@ -61,6 +64,7 @@ class SwiftProgressHUD: UIView {
                 setupHudTitle(title: titleText)
             }else if ( self.mode == .chrysanthemum) {
                 //设置菊花文字
+                setupChrysanthemum(title: titleText)
             }
             
         }
@@ -81,7 +85,7 @@ class SwiftProgressHUD: UIView {
                 
             }else if (self.mode == .rectangle) {
                 if(progress < 1){
-                    self.circularView.progress = progress
+                    self.rectView.progress = progress
                 }else{
                     hideView(afterDelay: 0)
                 }
@@ -99,7 +103,7 @@ class SwiftProgressHUD: UIView {
             if mode == .circular {
                 self.setupcircularView()
             } else if mode == .rectangle {
-                //设置矩形
+                self.setupRectView()
             }
         }
     }
@@ -163,8 +167,6 @@ extension SwiftProgressHUD {
     
     // MARK:- 设置Hud
     func setupHudView() {
-        
-        
         hudView = UIView()
         hudMaskView.addSubview(hudView)
         hudView.frame = CGRect(x: 0, y: 0, width: defaultHudSize.width, height: defaultHudSize.height)
@@ -198,7 +200,6 @@ extension SwiftProgressHUD {
         titleLabel.font = UIFont.systemFont(ofSize: 15, weight: 0.8)
         
         hudView.addSubview(titleLabel)
-        
         //如果设置了当前的大小
         if currentHudSize.width > 0 {
             titleLabel.frame = CGRect(x: 0, y: 0, width: currentHudSize.width - 20 , height: currentHudSize.height - 20)
@@ -207,12 +208,43 @@ extension SwiftProgressHUD {
             let limitSize = CGSize(width: currentView.frame.size.width - 20, height: 100)
             let currentSize = self.getTextRectSize(text: title as NSString, font: UIFont.systemFont(ofSize: 15, weight:  0.8), size: limitSize)
             self.currentHudSize = CGSize(width: currentSize.size.width + 20 , height: currentSize.size.height + 20 )
-            
-            
+           titleLabel.frame = CGRect(x: 0, y: 0, width: currentSize.width , height: currentSize.height)
+        }
+        titleLabel.center =  CGPoint(x:hudView.frame.size.width/2 , y: hudView.frame.size.height/2)
+    }
+    
+    // MARK:- 设置chrysanthemum
+    func setupChrysanthemum(title: String) {
+    
+        let titleLabel = UILabel()
+        titleLabel.numberOfLines = 0
+        titleLabel.text = title
+        titleLabel.textColor = UIColor.white
+        titleLabel.textAlignment = .center
+        titleLabel.font = UIFont.systemFont(ofSize: 15, weight: 0.8)
+        hudView.addSubview(titleLabel)
+        //如果设置了当前的大小
+        if currentHudSize.width > 0 {
+            titleLabel.frame = CGRect(x: 0, y: 0, width: currentHudSize.width - 20 , height: currentHudSize.height - 20)
+            titleLabel.center =  CGPoint(x:hudView.frame.size.width/2 , y: hudView.frame.size.height/2 + 25)
+            hudView.addSubview(activityIndicator)
+            activityIndicator.startAnimating()
+            activityIndicator.center = CGPoint(x:hudView.frame.size.width/2 , y: hudView.frame.size.height/2 - 15)
+        }else {
+            //限制计算大小
+            let limitSize = CGSize(width: currentView.frame.size.width - 20, height: 150)
+            let currentSize = self.getTextRectSize(text: title as NSString, font: UIFont.systemFont(ofSize: 15, weight:  0.8), size: limitSize)
+            self.currentHudSize = CGSize(width: currentSize.size.width + 20 , height: currentSize.size.height + 60 )
             titleLabel.frame = CGRect(x: 0, y: 0, width: currentSize.width , height: currentSize.height)
+            titleLabel.center =  CGPoint(x:hudView.frame.size.width/2 , y: hudView.frame.size.height/2 + 20)
+            
+            hudView.addSubview(activityIndicator)
+            activityIndicator.startAnimating()
+            activityIndicator.center = CGPoint(x:hudView.frame.size.width/2 , y: hudView.frame.size.height/2 - 10)
         }
         
-        titleLabel.center =  CGPoint(x:hudView.frame.size.width/2 , y: hudView.frame.size.height/2)
+        
+
     }
     
     
@@ -231,11 +263,11 @@ extension SwiftProgressHUD {
         animationImageView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         currentHudSize =  CGSize(width: 100, height: 100)
         self.addCycleTimer()
-        //        imageView.highlightedAnimationImages = imgArr
-        //        imageView.animationImages = imgArr
-        //        imageView.animationDuration = 0.5
-        //        imageView.animationRepeatCount = LONG_MAX
-        //        imageView.startAnimating()
+        //imageView.highlightedAnimationImages = imgArr
+        //imageView.animationImages = imgArr
+        //imageView.animationDuration = 0.5
+        //imageView.animationRepeatCount = LONG_MAX
+        //imageView.startAnimating()
         self.setupHudCustomView(view: animationImageView)
     }
     
@@ -246,6 +278,14 @@ extension SwiftProgressHUD {
         circularView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         circularView.backgroundColor = UIColor.white
         self.setupHudCustomView(view: circularView)
+    }
+    // MARK:- 设置矩形进度条
+    func setupRectView() {
+        rectView = ProgressRectView()
+        rectView.progress = 0.0
+        rectView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        rectView.backgroundColor = UIColor.white
+        self.setupHudCustomView(view: rectView)
     }
     
 }

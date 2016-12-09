@@ -12,10 +12,19 @@ class DemoTableViewController: UITableViewController {
     
     let arrTitle = [".text 不限制大小",
                     ".text 限制大小",
+                    ".chrysanthemum 菊花样式 不限制大小",
+                    ".chrysanthemum 菊花样式 限制大小",
                     ".customView 可以定义任何样式",
-                    ".animationImage 传入图片数组即可"
-        
-    ];
+                    ".animationImage 传入图片数组即可",
+                    ".circularView 圆形进度条",
+                    ".rectangle 矩形进度条",
+                    
+                    
+                    ];
+    
+    var cycyleTimer : Timer?
+    var progress : CGFloat = 0.0
+    var HUD : SwiftProgressHUD!
     
     override func viewDidLoad() {
         
@@ -23,51 +32,6 @@ class DemoTableViewController: UITableViewController {
         
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        //
-        //            let rotaionAnim = CATransition()
-        //            rotaionAnim.type = "oglFlip"
-        //            rotaionAnim.subtype = "fromLeft"
-        //            rotaionAnim.duration = 0.5
-        //            qqq.layer.add(rotaionAnim, forKey: "sssss")
-        
-        //        let transition=CATransition()
-        //        transition.duration = 5
-        //        transition.type=kCATransitionReveal
-        //        transition.subtype=kCATransitionFromLeft
-        //        qqq.layer.actions=["backgroundColor":transition]
-        //        qqq.layer.add(transition, forKey: "sssss")
-        
-        
-        
-        
-        
-        
-        //
-        //        //创建CATransition对象
-        //        let animation = CATransition()
-        //
-        //        //设置运动时间
-        //        animation.duration = 5
-        //
-        //        //设置运动type
-        //        animation.type = "oglFlip"
-        //
-        //
-        //            //设置子类
-        //            animation.subtype = "fromLeft"
-        //
-        //
-        //        //设置运动速度
-        // qqq.layer.add(rotaionAnim, forKey: nil)
-        //
         
         
         
@@ -94,6 +58,7 @@ class DemoTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         if indexPath.item == 0 {
             let hud = SwiftProgressHUD.showHUDAddedTo(self.view, animated: true)
             hud.titleText = "赵大财 赵大财 赵大财赵大财赵大财 赵 \n 💯"
@@ -106,11 +71,29 @@ class DemoTableViewController: UITableViewController {
             let hud = SwiftProgressHUD.showHUDAddedTo(self.view, animated: true)
             hud.currentHudSize = CGSize(width: 100, height: 100)
             hud.mode = .text
-            hud.titleText = "给我star"
+            hud.titleText = "给我star 给我star"
             hud.afterDelay = 2
         }
         
         if indexPath.item == 2 {
+            let hud = SwiftProgressHUD.showHUDAddedTo(self.view, animated: true)
+            hud.mode = .chrysanthemum
+            hud.hudColor = UIColor.orange
+            hud.titleText = "给我star 给我star"
+            hud.afterDelay = 2
+        }
+        
+        if indexPath.item == 3 {
+            let hud = SwiftProgressHUD.showHUDAddedTo(self.view, animated: true)
+            hud.mode = .chrysanthemum
+            hud.currentHudSize = CGSize(width: 200, height: 100)
+            hud.titleText = "给我star 给我star"
+            hud.afterDelay = 2
+        }
+        
+        
+        
+        if indexPath.item == 4 {
             let hud = SwiftProgressHUD.showHUDAddedTo(self.view, animated: true)
             hud.mode = .customView
             let customView = UIImageView()
@@ -127,7 +110,8 @@ class DemoTableViewController: UITableViewController {
             hud.afterDelay = 2
         }
         
-        if indexPath.item == 3 {
+        
+        if indexPath.item == 5 {
             let hud = SwiftProgressHUD.showHUDAddedTo(self.view, animated: true)
             hud.hudColor = UIColor.white
             hud.mode = .animationImage
@@ -135,6 +119,38 @@ class DemoTableViewController: UITableViewController {
             hud.afterDelay = 2
         }
         
+        if indexPath.item == 6 {
+            let hud = SwiftProgressHUD.showHUDAddedTo(self.view, animated: true)
+            hud.mode = .circular
+            hud.hudColor = UIColor.white
+            HUD = hud
+            cycyleTimer = Timer(timeInterval: 0.2, target: self, selector: #selector(self.scrollToNext), userInfo: nil, repeats: true)
+            RunLoop.main.add(cycyleTimer!, forMode:RunLoopMode.commonModes)
+        }
+        
+        if indexPath.item == 7 {
+            let hud = SwiftProgressHUD.showHUDAddedTo(self.view, animated: true)
+            hud.mode = .rectangle
+            hud.hudColor = UIColor.white
+            HUD = hud
+            cycyleTimer = Timer(timeInterval: 0.2, target: self, selector: #selector(self.scrollToNext), userInfo: nil, repeats: true)
+            RunLoop.main.add(cycyleTimer!, forMode:RunLoopMode.commonModes)
+        }
     }
-    
+}
+
+
+
+extension DemoTableViewController  {
+    // 定时器的方法
+    @objc fileprivate func scrollToNext() {
+        progress =  progress + 0.1
+        HUD.progress = progress
+        if(progress >= 1){
+            progress = 0.0
+            cycyleTimer?.invalidate()
+            cycyleTimer = nil
+            HUD = nil
+        }
+    }
 }
